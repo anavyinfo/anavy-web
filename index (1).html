@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anavy · Copiloto de ventas para distribución industrial</title>
+<meta name="description" content="Anavy es el copiloto de ventas para comerciales de distribución industrial. Catálogo, argumentarios y seguimiento en el móvil, en segundos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#0A0A0A;color:#EFEFEF;overflow-x:hidden;line-height:1.6}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:1000;background:#0A0A0A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;cursor:pointer}
+#splash.out{animation:splash-out .8s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes splash-out{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.06)}}
+.sp-spark{animation:sp-in .9s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sp-in{from{opacity:0;transform:scale(.3) rotate(-40deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.sp-name{font-size:44px;font-weight:900;letter-spacing:-2px;color:#fff;animation:sp-up .6s .35s cubic-bezier(.34,1.56,.64,1) both}
+.sp-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(200,255,0,.5);animation:sp-up .5s .5s ease both}
+.sp-hint{position:absolute;bottom:44px;display:flex;flex-direction:column;align-items:center;gap:8px;animation:sp-up .5s .9s ease both}
+.sp-hint span{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25)}
+.sp-arrow{width:20px;height:20px;border-right:2px solid rgba(200,255,0,.4);border-bottom:2px solid rgba(200,255,0,.4);transform:rotate(45deg);animation:sp-bounce 1.5s 1.2s ease-in-out infinite}
+@keyframes sp-bounce{0%,100%{transform:rotate(45deg) translateY(-4px)}50%{transform:rotate(45deg) translateY(5px)}}
+@keyframes sp-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* MAIN */
+#main{opacity:0;transition:opacity .7s .1s}
+#main.on{opacity:1}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-28px);transition:opacity .6s ease,transform .6s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(28px);transition:opacity .6s ease,transform .6s ease}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);transform:translateY(-100%);transition:transform .45s ease}
+nav.show{transform:translateY(0)}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-name{font-size:17px;font-weight:900;letter-spacing:-.5px;color:#fff}
+.nav-sub{font-size:8px;font-weight:600;letter-spacing:1.5px;color:rgba(200,255,0,.35);text-transform:uppercase}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{font-size:13px;font-weight:600;color:rgba(255,255,255,.4);text-decoration:none;padding:7px 14px;border-radius:20px;transition:color .15s}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:#C8FF00!important;color:#0A0A0A!important;font-weight:800!important;border-radius:20px!important}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px;position:relative;overflow:hidden;background:#0A0A0A}
+.hero-bg-glow{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(200,255,0,.06) 0%,transparent 65%);pointer-events:none}
+.hero-content{max-width:1100px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,255,0,.07);border:1px solid rgba(200,255,0,.18);border-radius:40px;padding:7px 18px;margin-bottom:32px;font-size:11px;font-weight:700;color:rgba(200,255,0,.75);letter-spacing:.5px}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#C8FF00;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+h1.hero-h{font-size:clamp(52px,9vw,108px);font-weight:900;letter-spacing:-4px;line-height:.92;color:#fff;margin-bottom:32px}
+h1.hero-h .lime{color:#C8FF00}
+.hero-sub{font-size:18px;color:rgba(255,255,255,.55);max-width:520px;line-height:1.7;margin-bottom:40px;font-weight:500}
+.hero-sub strong{color:rgba(255,255,255,.9);font-weight:700}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:80px}
+.btn-lime{background:#C8FF00;color:#0A0A0A;font-size:15px;font-weight:800;padding:16px 34px;border-radius:40px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;font-family:inherit;letter-spacing:-.2px}
+.btn-lime:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(200,255,0,.25)}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.65);font-size:15px;font-weight:600;padding:16px 34px;border-radius:40px;border:1.5px solid rgba(255,255,255,.12);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;font-family:inherit}
+.btn-ghost:hover{border-color:rgba(255,255,255,.35);color:#fff}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.07);padding-top:40px}
+.hero-stat{padding:0 0 0 24px;border-left:1px solid rgba(255,255,255,.07)}
+.hero-stat:first-child{padding-left:0;border-left:none}
+.stat-num{font-size:40px;font-weight:900;letter-spacing:-2px;color:#C8FF00;line-height:1}
+.stat-label{font-size:13px;color:rgba(255,255,255,.35);margin-top:6px;font-weight:500}
+.stat-src{font-size:10px;color:rgba(255,255,255,.18);margin-top:3px}
+
+/* STRIP */
+#strip{background:#111;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.strip-grid{max-width:1100px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr)}
+.strip-item{padding:22px 0;border-right:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:14px;padding-right:24px}
+.strip-item:first-child{padding-left:0}
+.strip-item:last-child{border-right:none}
+.strip-ic{width:38px;height:38px;border-radius:10px;background:rgba(200,255,0,.05);border:1px solid rgba(200,255,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;color:#C8FF00;flex-shrink:0}
+.strip-name{font-size:14px;font-weight:800;color:#fff;line-height:1.2}
+.strip-when{font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;font-weight:500}
+
+/* WRAP */
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+
+/* SECCIÓN DEMO */
+#demo{background:#0A0A0A;padding:120px 0}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.sec-eyebrow-inv{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sec-eyebrow-inv::before{content:'';width:28px;height:2px;background:#C8FF00;border-radius:1px}
+.sec-title-inv{font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.05;color:#fff;margin-bottom:24px}
+.demo-quote{font-size:19px;font-weight:700;letter-spacing:-.3px;line-height:1.45;color:#fff;border-left:3px solid #C8FF00;padding:4px 0 4px 22px;margin:24px 0}
+.demo-body{font-size:14px;color:rgba(255,255,255,.5);line-height:1.85;margin-bottom:14px}
+
+/* TELÉFONO */
+.phone-wrap{display:flex;flex-direction:column;gap:12px}
+.phone{background:#111;border:1.5px solid #232323;border-radius:30px;overflow:hidden;max-width:300px;margin:0 auto}
+.ph-notch{height:8px;background:#0A0A0A;display:flex;align-items:center;justify-content:center}
+.ph-cam{width:6px;height:6px;border-radius:50%;background:#1A1A1A}
+.ph-bar{background:#0A0A0A;padding:4px 14px;display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.03)}
+.ph-bar-t{font-size:9px;color:rgba(255,255,255,.35);font-weight:700}
+.ph-head{background:#0A0A0A;padding:9px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ph-ic{width:22px;height:22px;background:#141414;border:1px solid rgba(200,255,0,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ph-name{font-size:12px;font-weight:900;color:#fff}
+.ph-sub{font-size:8px;color:rgba(255,255,255,.3);margin-top:1px}
+.ph-body{background:#F0F0EE;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:160px}
+.msg-u{align-self:flex-end;background:#0A0A0A;color:#fff;font-size:10px;font-weight:600;padding:8px 11px;border-radius:12px 12px 3px 12px;max-width:82%;line-height:1.4}
+.msg-a{align-self:flex-start;display:flex;flex-direction:column;gap:3px;max-width:90%}
+.msg-ref{font-size:8px;font-weight:700;color:#fff;background:#4A7A00;display:inline-block;padding:2px 6px;border-radius:4px;letter-spacing:.3px;margin-bottom:2px}
+.msg-b{background:#fff;color:#222;font-size:10px;padding:9px 11px;border-radius:3px 12px 12px 12px;border:1px solid #E5E5E5;line-height:1.55}
+.ph-nav{background:#fff;border-top:1px solid #EBEBEB;padding:6px 4px;display:flex;justify-content:space-around}
+.pnb{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:7px;font-weight:700;color:#BBBBBB;padding:3px 8px;border-top:2px solid transparent;cursor:pointer;transition:all .15s}
+.pnb.on{color:#0A0A0A;border-top-color:#0A0A0A}
+
+/* TABS MÓDULOS */
+.mod-tabs-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:48px}
+.mod-tab{background:#F7F7F5;padding:22px 18px;border:none;text-align:left;cursor:pointer;font-family:inherit;border-top:3px solid transparent;transition:all .15s;position:relative}
+.mod-tab:hover{background:#EFEFEC}
+.mod-tab.active{background:#fff;border-top-color:#0A0A0A}
+.mod-tab-ic{font-size:16px;margin-bottom:8px;display:block}
+.mod-tab-name{font-size:13px;font-weight:800;color:#0A0A0A;display:block;margin-bottom:2px}
+.mod-tab-sub{font-size:9px;color:#999;font-weight:600;letter-spacing:.3px;display:block}
+.mod-panel{display:none;background:#fff;border:1px solid #EBEBEB;border-top:none;padding:52px}
+.mod-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.mod-h{font-size:clamp(22px,2.5vw,32px);font-weight:900;letter-spacing:-1px;color:#0A0A0A;margin-bottom:14px;line-height:1.1}
+.mod-text{font-size:14px;color:#555;line-height:1.85;margin-bottom:14px}
+.mod-quote{font-size:16px;font-weight:800;color:#0A0A0A;font-style:italic;border-left:4px solid #C8FF00;padding-left:16px;margin-bottom:20px;line-height:1.45}
+.mod-steps{display:flex;flex-direction:column;gap:2px}
+.mod-step{background:#F7F7F5;padding:16px 18px;display:flex;align-items:flex-start;gap:12px}
+.mod-step:first-child{border-radius:10px 10px 0 0}
+.mod-step:last-child{border-radius:0 0 10px 10px}
+.mod-dot{width:22px;height:22px;border-radius:50%;background:#0A0A0A;color:#C8FF00;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.mod-step-main{font-size:13px;font-weight:700;color:#0A0A0A;line-height:1.4}
+.mod-step-sub{font-size:12px;color:#777;margin-top:2px;line-height:1.5}
+
+/* PROBLEMA */
+#problema{background:#F7F7F5;padding:120px 0}
+.sec-eyebrow{font-size:12px;font-weight:700;color:#999;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sec-eyebrow::before{content:'';width:28px;height:2px;background:#C8FF00;border-radius:1px}
+.sec-title-dark{font-size:clamp(32px,4.5vw,56px);font-weight:900;letter-spacing:-2px;line-height:1.05;color:#0A0A0A;margin-bottom:18px}
+.prob-intro{font-size:16px;color:#666;max-width:540px;line-height:1.75;margin-bottom:52px}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.prob-card{background:#fff;padding:40px;position:relative;overflow:hidden}
+.prob-num-big{position:absolute;top:-16px;right:16px;font-size:110px;font-weight:900;letter-spacing:-6px;color:rgba(0,0,0,.035);line-height:1;user-select:none}
+.prob-tag{font-size:10px;font-weight:700;color:#C8FF00;background:#0A0A0A;display:inline-block;padding:3px 9px;border-radius:4px;margin-bottom:14px;letter-spacing:.5px}
+.prob-title{font-size:19px;font-weight:800;color:#0A0A0A;letter-spacing:-.4px;margin-bottom:10px;line-height:1.3}
+.prob-body{font-size:14px;color:#666;line-height:1.8}
+.prob-stat{font-size:11px;font-weight:700;color:#C8FF00;margin-top:16px;background:#0A0A0A;padding:6px 10px;border-radius:6px;display:inline-block}
+
+/* DATOS */
+#datos{background:#0A0A0A;padding:120px 0}
+.datos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:52px}
+.dato-card{background:#111;padding:36px 28px;border-top:2px solid #1A1A1A;transition:border-color .2s}
+.dato-card:hover{border-top-color:#C8FF00}
+.dato-num{font-size:52px;font-weight:900;letter-spacing:-3px;color:#C8FF00;line-height:1;margin-bottom:12px}
+.dato-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3}
+.dato-body{font-size:13px;color:rgba(255,255,255,.4);line-height:1.75}
+.dato-src{font-size:10px;color:rgba(255,255,255,.18);margin-top:14px;font-weight:600}
+
+/* PARA QUIEN */
+#para-quien{background:#0A0A0A;padding:0 0 120px}
+.pq-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:52px}
+.pq-card{padding:52px 44px}
+.pq-lime{background:#C8FF00}
+.pq-dark{background:#141414;border:1px solid #1E1E1E}
+.pq-icon{font-size:28px;margin-bottom:22px}
+.pq-title{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:12px;line-height:1.2}
+.pq-lime .pq-title{color:#0A0A0A}
+.pq-dark .pq-title{color:#fff}
+.pq-body{font-size:14px;line-height:1.85;margin-bottom:24px}
+.pq-lime .pq-body{color:rgba(0,0,0,.6)}
+.pq-dark .pq-body{color:rgba(255,255,255,.4)}
+.pq-list{display:flex;flex-direction:column;gap:10px}
+.pq-li{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.55}
+.pq-lime .pq-li{color:rgba(0,0,0,.65)}
+.pq-dark .pq-li{color:rgba(255,255,255,.45)}
+.pq-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:7px}
+.pq-lime .pq-dot{background:#0A0A0A}
+.pq-dark .pq-dot{background:#C8FF00}
+
+/* FUNCIONAMIENTO */
+#como{background:#fff;padding:120px 0}
+.como-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:52px}
+.como-step{background:#F7F7F5;padding:36px 28px}
+.como-num{font-size:48px;font-weight:900;letter-spacing:-3px;color:#0A0A0A;opacity:.07;line-height:1;margin-bottom:20px}
+.como-title{font-size:16px;font-weight:800;color:#0A0A0A;margin-bottom:10px}
+.como-body{font-size:13px;color:#666;line-height:1.75}
+.como-highlight{margin-top:52px;background:#0A0A0A;border-radius:16px;padding:40px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.como-hl-text{font-size:clamp(18px,2.5vw,26px);font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.3;max-width:500px}
+.como-hl-text span{color:#C8FF00}
+.como-hl-right{text-align:center;flex-shrink:0}
+.como-hl-num{font-size:52px;font-weight:900;letter-spacing:-3px;color:#C8FF00;line-height:1}
+.como-hl-label{font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;font-weight:600}
+
+/* COMPETENCIA */
+#competencia{background:#F7F7F5;padding:120px 0}
+.comp-table{margin-top:52px;overflow:hidden;border-radius:12px;border:1px solid #E5E5E5}
+.comp-head{display:grid;grid-template-columns:160px 1fr 1fr 1fr 1fr 100px;background:#0A0A0A;padding:14px 20px;gap:8px;align-items:center}
+.comp-head div{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;text-align:center}
+.comp-head div:first-child{text-align:left}
+.comp-row{display:grid;grid-template-columns:160px 1fr 1fr 1fr 1fr 100px;padding:14px 20px;gap:8px;align-items:center;border-bottom:1px solid #EEEEEC;background:#fff;transition:background .15s}
+.comp-row:hover{background:#FAFAF8}
+.comp-row:last-child{border-bottom:none}
+.comp-row.anavy{background:rgba(200,255,0,.04);border-bottom:none}
+.comp-name{font-size:13px;font-weight:700;color:#0A0A0A}
+.comp-name.hl{color:#0A0A0A;font-weight:900}
+.comp-check{text-align:center;font-size:14px}
+.comp-check.si{color:#22C55E}
+.comp-check.no{color:#CBD5E0}
+.comp-check.prox{color:#F59E0B;font-size:10px;font-weight:700}
+.comp-price{font-size:12px;font-weight:700;color:#666;text-align:right}
+.comp-price.hl{color:#0A0A0A;font-weight:900}
+.comp-note{margin-top:20px;font-size:13px;color:#888;line-height:1.7}
+
+/* MODELO */
+#modelo{background:#0A0A0A;padding:120px 0}
+.modelo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
+.modelo-card{background:#111;padding:40px 32px;border-top:2px solid #1A1A1A}
+.modelo-card.featured{background:#141414;border-top-color:#C8FF00}
+.modelo-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;display:block}
+.modelo-card.featured .modelo-badge{color:rgba(200,255,0,.6)}
+.modelo-price{font-size:40px;font-weight:900;letter-spacing:-2px;color:#fff;line-height:1;margin-bottom:6px}
+.modelo-card.featured .modelo-price{color:#C8FF00}
+.modelo-unit{font-size:12px;color:rgba(255,255,255,.3);margin-bottom:20px}
+.modelo-sep{height:1px;background:#1A1A1A;margin-bottom:20px}
+.modelo-list{display:flex;flex-direction:column;gap:8px}
+.modelo-li{font-size:13px;color:rgba(255,255,255,.5);display:flex;gap:8px;line-height:1.5}
+.modelo-li span{color:#C8FF00;flex-shrink:0}
+.modelo-bottom{margin-top:52px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.modelo-roi{background:#141414;border:1px solid rgba(200,255,0,.12);border-radius:12px;padding:32px}
+.modelo-roi-title{font-size:14px;font-weight:700;color:rgba(200,255,0,.7);margin-bottom:20px}
+.modelo-roi-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px}
+.modelo-roi-row:last-child{border-bottom:none;padding-top:12px;font-size:15px;font-weight:800}
+.modelo-roi-l{color:rgba(255,255,255,.4)}
+.modelo-roi-v{color:#fff;font-weight:600}
+.modelo-roi-v.lime{color:#C8FF00}
+.modelo-promise{background:#141414;border:1px solid #1E1E1E;border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:14px;justify-content:center}
+.modelo-promise-item{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:rgba(255,255,255,.5);line-height:1.55}
+.modelo-promise-item span{color:#C8FF00;flex-shrink:0;margin-top:1px}
+
+/* FILOSOFIA */
+#filosofia{background:#fff;padding:120px 0}
+.filo-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:52px;align-items:end}
+.filo-big{font-size:clamp(30px,4.5vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.05;color:#0A0A0A}
+.filo-intro{font-size:15px;color:#666;line-height:1.85}
+.filo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.filo-card{background:#F7F7F5;padding:30px 26px}
+.filo-bar{width:28px;height:3px;background:#C8FF00;border-radius:2px;margin-bottom:18px}
+.filo-no{font-size:15px;font-weight:800;color:#0A0A0A;margin-bottom:9px;line-height:1.25}
+.filo-si{font-size:13px;color:#666;line-height:1.7}
+
+/* PILOTO */
+#piloto{background:#F7F7F5;padding:120px 0}
+.piloto-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:52px}
+.piloto-steps{display:flex;flex-direction:column;gap:20px}
+.piloto-step{display:flex;gap:18px;align-items:flex-start}
+.piloto-num{width:36px;height:36px;border-radius:50%;background:#0A0A0A;color:#C8FF00;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.piloto-title{font-size:16px;font-weight:800;color:#0A0A0A;margin-bottom:6px}
+.piloto-body{font-size:14px;color:#666;line-height:1.75}
+.piloto-cards{display:flex;flex-direction:column;gap:14px}
+.piloto-card{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:24px}
+.piloto-card-title{font-size:13px;font-weight:800;color:#0A0A0A;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.piloto-card-title::before{content:'';width:4px;height:16px;background:#C8FF00;border-radius:2px;flex-shrink:0}
+.piloto-card-list{display:flex;flex-direction:column;gap:7px}
+.piloto-card-li{font-size:13px;color:#666;display:flex;gap:8px;line-height:1.5}
+.piloto-card-li span{color:#0A0A0A;font-weight:700;flex-shrink:0}
+
+/* CONTACTO */
+#contacto{background:#0A0A0A;padding:120px 0}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:52px}
+.contact-left h3{font-size:clamp(28px,3.5vw,44px);font-weight:900;letter-spacing:-1.5px;color:#fff;line-height:1.05;margin-bottom:20px}
+.contact-left p{font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:32px}
+.contact-info{display:flex;flex-direction:column;gap:12px}
+.contact-info-item{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(255,255,255,.4)}
+.contact-info-item a{color:rgba(200,255,0,.7);text-decoration:none;font-weight:600;transition:color .15s}
+.contact-info-item a:hover{color:#C8FF00}
+.contact-ic{width:34px;height:34px;border-radius:8px;background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.form-wrap{background:#111;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:36px}
+.form-group{margin-bottom:18px}
+.form-label{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:block}
+.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:13px 16px;font-size:14px;color:#fff;font-family:inherit;outline:none;transition:border .15s;resize:none}
+.form-input:focus{border-color:rgba(200,255,0,.3)}
+.form-input::placeholder{color:rgba(255,255,255,.2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-submit{width:100%;background:#C8FF00;color:#0A0A0A;font-size:15px;font-weight:800;padding:15px 28px;border-radius:40px;border:none;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,255,0,.25)}
+.form-note{font-size:12px;color:rgba(255,255,255,.2);text-align:center;margin-top:14px;line-height:1.6}
+.form-ok{display:none;text-align:center;padding:28px}
+.form-ok-icon{font-size:36px;margin-bottom:14px}
+.form-ok-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:8px}
+.form-ok-body{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7}
+
+/* CTA FINAL */
+#cta-final{background:#C8FF00;padding:100px 0;text-align:center}
+#cta-final h2{font-size:clamp(36px,6vw,72px);font-weight:900;letter-spacing:-3px;color:#0A0A0A;line-height:.95;margin-bottom:24px}
+#cta-final p{font-size:17px;color:rgba(0,0,0,.55);max-width:480px;margin:0 auto 40px;line-height:1.7}
+.btn-dark{background:#0A0A0A;color:#fff;font-size:15px;font-weight:800;padding:16px 34px;border-radius:40px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;font-family:inherit}
+.btn-dark:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+
+/* FOOTER */
+footer{background:#0A0A0A;border-top:1px solid rgba(255,255,255,.05);padding:40px 0}
+.footer-in{max-width:1100px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center}
+.footer-name{font-size:16px;font-weight:900;letter-spacing:-.5px;color:rgba(255,255,255,.2)}
+.footer-note{font-size:12px;color:rgba(255,255,255,.15)}
+
+/* MOBILE */
+/* APP / ESTADO */
+#app{background:#0A0A0A;padding:120px 0}
+.app-tab{display:block;width:100%;text-align:left;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 20px;color:#fff;cursor:pointer;font-family:inherit;margin-bottom:10px;transition:all .15s}
+.app-tab:hover{border-color:rgba(255,255,255,.2)}
+.app-tab.active{border-color:rgba(200,255,0,.4);background:rgba(200,255,0,.05)}
+.app-tab b{display:block;font-size:15px;font-weight:800;margin-bottom:3px}
+.app-tab span{font-size:13px;color:rgba(255,255,255,.45);line-height:1.55}
+.scr{display:none}.scr.active{display:block}
+.phone.big{max-width:360px}
+.phone.big .ph-body{min-height:340px;gap:0}
+.phone.big .ph-name{font-size:13px}
+.phone.big .ph-sub{font-size:8px;letter-spacing:.5px}
+.sc-card{background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.sc-h{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#0A0A0A;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sc-badge{width:18px;height:18px;border-radius:50%;background:#0A0A0A;color:#C8FF00;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.sc-rem{display:flex;gap:10px}
+.sc-date{font-size:9px;font-weight:800;color:#888;width:34px;flex-shrink:0;line-height:1.35}
+.sc-text{font-size:11px;color:#111;line-height:1.45}
+.sc-who{font-size:9px;color:#888;margin-top:4px}
+.sc-row{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid #F0F0EE}
+.sc-days{font-size:10px;font-weight:800;color:#0A0A0A;width:52px;flex-shrink:0;line-height:1.2}
+.sc-days small{display:block;font-weight:500;color:#888;font-size:8px}
+.sc-name{font-size:11px;font-weight:700;color:#0A0A0A}
+.sc-sub{font-size:9px;color:#888;line-height:1.35}
+.sc-btn{background:#0A0A0A;color:#C8FF00;font-size:9px;font-weight:800;padding:6px 10px;border-radius:20px;margin-left:auto;flex-shrink:0}
+.sc-h2{font-size:11px;font-weight:800;color:#0A0A0A;margin:10px 0 4px}
+.sc-p{font-size:10.5px;color:#333;line-height:1.6}
+.sc-quote{font-size:10.5px;color:#333;line-height:1.6;border-left:2px solid #C8FF00;padding-left:9px;margin:4px 0 6px}
+.sc-wa{background:#E9FBE5;border-radius:10px;padding:10px 12px;margin:6px 0 10px}
+.sc-wa-t{font-size:8px;font-weight:800;color:#1B8A3A;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.sc-btns{display:flex;gap:6px;margin-top:9px}
+.sc-b1{background:#25D366;color:#0A0A0A;font-size:9px;font-weight:800;padding:6px 10px;border-radius:20px}
+.sc-b2{background:#fff;border:1px solid #DDD;color:#0A0A0A;font-size:9px;font-weight:700;padding:6px 10px;border-radius:20px}
+.sc-chips{display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px;background:#0A0A0A}
+.sc-chips span{background:#141414;border:1px solid #2A2A2A;color:#fff;font-size:9px;font-weight:700;padding:6px 10px;border-radius:20px}
+.car{background:#0A0A0A;padding:26px 20px 24px;text-align:center;min-height:400px;display:flex;flex-direction:column;align-items:center}
+.car-t{font-size:8px;font-weight:800;letter-spacing:2px;color:#C8FF00}
+.car-s{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px}
+.car-mic{width:128px;height:128px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#C8FF00,#9BCC00);display:flex;align-items:center;justify-content:center;margin:34px 0 20px}
+.car-l{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.5px}
+.car-n{font-size:9px;color:rgba(255,255,255,.35);line-height:1.6;margin:auto 0 12px;max-width:230px;padding-top:24px}
+.car-b{width:100%;border:1px solid #2A2A2A;background:#141414;color:#fff;font-size:11px;font-weight:800;padding:12px;border-radius:12px}
+#estado{background:#0A0A0A;padding:120px 0}
+.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:52px}
+.est-card{background:#111;border:1px solid #1E1E1E;padding:40px}
+.est-card.hoy{border-top:2px solid #C8FF00}
+.est-t{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
+.est-li{display:flex;gap:12px;font-size:14px;color:rgba(255,255,255,.65);line-height:1.55;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.est-li:last-child{border-bottom:none}
+.est-li span{flex-shrink:0;color:#C8FF00;font-weight:800}
+.est-note{margin-top:24px;font-size:14px;color:rgba(255,255,255,.4);line-height:1.7;max-width:640px}
+@media(max-width:768px){.est-grid{grid-template-columns:1fr}.est-card{padding:28px}}
+@media(max-width:768px){
+  .hero-stats,.prob-grid,.demo-grid,.pq-grid,.datos-grid,.como-steps,.comp-head,.filo-grid,.modelo-grid,.modelo-bottom,.piloto-grid,.contact-grid,.filo-header{grid-template-columns:1fr}
+  .comp-head,.comp-row{display:none}
+  .strip-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  h1.hero-h{font-size:clamp(44px,12vw,72px)}
+  .mod-tabs-wrap{grid-template-columns:1fr 1fr}
+  .mod-panel.active{grid-template-columns:1fr}
+  .como-highlight{flex-direction:column;text-align:center}
+}
+
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" onclick="enterSite()">
+  <svg class="sp-spark" width="80" height="80" viewBox="0 0 56 56">
+    <rect width="56" height="56" rx="14" fill="#141414"/>
+    <rect width="56" height="56" rx="14" fill="none" stroke="rgba(200,255,0,.2)" stroke-width="1"/>
+    <circle cx="28" cy="28" r="8" fill="#C8FF00"/>
+    <circle cx="28" cy="9.5" r="5" fill="#C8FF00" opacity=".45"/>
+    <circle cx="43.5" cy="37" r="5" fill="#C8FF00" opacity=".45"/>
+    <circle cx="12.5" cy="37" r="5" fill="#C8FF00" opacity=".45"/>
+    <line x1="28" y1="19" x2="28" y2="22.5" stroke="#C8FF00" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="36" y1="32" x2="39.5" y2="34.5" stroke="#C8FF00" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="20" y1="32" x2="16.5" y2="34.5" stroke="#C8FF00" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+  <div class="sp-name">anavy</div>
+  <div class="sp-tag">copiloto de ventas</div>
+  <div class="sp-hint"><span>entrar</span><div class="sp-arrow"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="#hero" class="nav-logo">
+      <svg width="22" height="22" viewBox="0 0 56 56"><rect width="56" height="56" rx="10" fill="#141414"/><circle cx="28" cy="28" r="8" fill="#C8FF00"/><circle cx="28" cy="9.5" r="5" fill="#C8FF00" opacity=".45"/><circle cx="43.5" cy="37" r="5" fill="#C8FF00" opacity=".45"/><circle cx="12.5" cy="37" r="5" fill="#C8FF00" opacity=".45"/><line x1="28" y1="19" x2="28" y2="22.5" stroke="#C8FF00" stroke-width="2.5" stroke-linecap="round"/><line x1="36" y1="32" x2="39.5" y2="34.5" stroke="#C8FF00" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="32" x2="16.5" y2="34.5" stroke="#C8FF00" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div><div class="nav-name">anavy</div><div class="nav-sub">copiloto ventas</div></div>
+    </a>
+    <div class="nav-links">
+      <a href="#problema">El problema</a>
+      <a href="#modulos">Cómo funciona</a>
+      <a href="#modelo">Precios</a>
+      <a href="#piloto">El piloto</a>
+      <a href="#contacto" class="nav-cta">Pedir demo →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Copiloto de ventas</div>
+    <h1 class="hero-h reveal">El comercial que<br>más vende no<br>trabaja <span class="lime">solo.</span></h1>
+    <p class="hero-sub reveal">Anavy es el copiloto de ventas para comerciales de <strong>distribución industrial</strong>. Catálogo completo, argumentarios técnicos y seguimiento automático. Todo en el móvil, en segundos.</p>
+    <div class="hero-ctas reveal">
+      <a href="#contacto" class="btn-lime">Pedir demo gratuita →</a>
+      <a href="#modulos" class="btn-ghost">Ver cómo funciona</a>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="hero-stat">
+        <div class="stat-num">28%</div>
+        <div class="stat-label">del tiempo se vende. El 72% se va en tareas administrativas.</div>
+        <div class="stat-src">Salesforce State of Sales 2026</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">2/3</div>
+        <div class="stat-label">Casi dos tercios de los comerciales B2B dedican 5 horas o más a la semana a meter datos en el CRM.</div>
+        <div class="stat-src">SPOTIO State of Field Sales 2026</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">25%</div>
+        <div class="stat-label">de rotación anual en ventas. El conocimiento de los clientes se va con el comercial.</div>
+        <div class="stat-src">Salesforce State of Sales 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div id="strip">
+  <div class="strip-grid wrap">
+    <div class="strip-item reveal">
+      <div class="strip-ic">▲</div>
+      <div><div class="strip-name">Prepara</div><div class="strip-when">Antes de entrar</div></div>
+    </div>
+    <div class="strip-item reveal">
+      <div class="strip-ic">◆</div>
+      <div><div class="strip-name">Acompaña</div><div class="strip-when">Durante la visita</div></div>
+    </div>
+    <div class="strip-item reveal">
+      <div class="strip-ic">●</div>
+      <div><div class="strip-name">Recuerda</div><div class="strip-when">Al salir</div></div>
+    </div>
+    <div class="strip-item reveal">
+      <div class="strip-ic">→</div>
+      <div><div class="strip-name">Seguimiento</div><div class="strip-when">Esa misma tarde</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO / SOLUCIÓN -->
+<section id="app">
+  <div class="wrap">
+    <div class="demo-grid">
+      <div class="reveal-left">
+        <div class="sec-eyebrow-inv">La app, hoy</div>
+        <h2 class="sec-title-inv">Esto es Anavy<br>funcionando.</h2>
+        <p class="demo-body">Son pantallas reales de la app con una distribuidora de ejemplo del sector madera. Los nombres, productos y precios son ficticios; el funcionamiento es el real.</p>
+        <div style="margin-top:28px">
+          <button class="app-tab active" onclick="showApp(0)"><b>Hoy</b><span>Los recordatorios y los clientes que se enfrían, nada más abrir la app.</span></button>
+          <button class="app-tab" onclick="showApp(1)"><b>Preparar la visita</b><span>Objeción más probable, frase para abrir y mensaje de WhatsApp listo.</span></button>
+          <button class="app-tab" onclick="showApp(2)"><b>Consulta con el catálogo</b><span>Referencias y precios de tu catálogo, agrupados por tipo de trabajo.</span></button>
+          <button class="app-tab" onclick="showApp(3)"><b>Modo coche</b><span>Hablas y Anavy te responde en voz alta, con el móvil en el soporte.</span></button>
+        </div>
+        <a href="#contacto" class="btn-lime" style="margin-top:12px">Pedir demo con tu catálogo →</a>
+      </div>
+      <div class="reveal-right">
+
+        <div class="scr active" id="scr-0"><div class="phone big">
+          <div class="ph-notch"><div class="ph-cam"></div></div>
+          <div class="ph-bar"><span class="ph-bar-t">9:41</span><span class="ph-bar-t">●●●</span></div>
+          <div class="ph-head"><div class="ph-ic"><svg width="12" height="12" viewBox="0 0 56 56"><circle cx="28" cy="28" r="8" fill="#C8FF00"/><circle cx="28" cy="9.5" r="5" fill="#C8FF00" opacity=".5"/><circle cx="43.5" cy="37" r="5" fill="#C8FF00" opacity=".5"/><circle cx="12.5" cy="37" r="5" fill="#C8FF00" opacity=".5"/></svg></div><div><div class="ph-name">Hola, Marc</div><div class="ph-sub">COMERCIAL · DEMOMADERA DISTRIBUCIÓN</div></div></div>
+          <div class="ph-body">
+            <div class="sc-card">
+              <div class="sc-h"><span>Próximos recordatorios</span><span class="sc-badge">1</span></div>
+              <div class="sc-rem"><div class="sc-date">LUN<br>16/11</div><div><div class="sc-text">Llamar a Joan tras probar la muestra de barniz DM-C001; aprovechar para cerrar presupuesto cocina Premià y confirmar plazo tablero hidrófugo</div><div class="sc-who">Fusteria Can Soler</div></div></div>
+            </div>
+            <div class="sc-card">
+              <div class="sc-h"><span>Clientes que se enfrían</span><span class="sc-badge">3</span></div>
+              <div class="sc-row"><div class="sc-days">62 DÍAS<small>sin visita</small></div><div><div class="sc-name">Carpintería Vilaseca</div><div class="sc-sub">Granollers · Carpintería a medida</div></div><div class="sc-btn">Preparar</div></div>
+              <div class="sc-row"><div class="sc-days">33 DÍAS<small>sin visita</small></div><div><div class="sc-name">Carpintería Ramos</div><div class="sc-sub">Cerdanyola del Vallès · Carpintería a medida</div></div><div class="sc-btn">Preparar</div></div>
+              <div class="sc-row"><div class="sc-days">30 DÍAS<small>sin visita</small></div><div><div class="sc-name">Fusteria Hnos. Ferran</div><div class="sc-sub">Cardedeu · Carpintería a medida</div></div><div class="sc-btn">Preparar</div></div>
+            </div>
+          </div>
+          <div class="ph-nav"><div class="pnb on">Hoy</div><div class="pnb">Clientes</div><div class="pnb">Anavy</div><div class="pnb">Agenda</div></div>
+        </div></div>
+
+        <div class="scr" id="scr-1"><div class="phone big">
+          <div class="ph-notch"><div class="ph-cam"></div></div>
+          <div class="ph-bar"><span class="ph-bar-t">9:41</span><span class="ph-bar-t">●●●</span></div>
+          <div class="ph-head"><div class="ph-ic"><svg width="12" height="12" viewBox="0 0 56 56"><circle cx="28" cy="28" r="8" fill="#C8FF00"/><circle cx="28" cy="9.5" r="5" fill="#C8FF00" opacity=".5"/><circle cx="43.5" cy="37" r="5" fill="#C8FF00" opacity=".5"/><circle cx="12.5" cy="37" r="5" fill="#C8FF00" opacity=".5"/></svg></div><div><div class="ph-name">Carpintería Vilaseca</div><div class="ph-sub">GRANOLLERS · CARPINTERÍA A MEDIDA</div></div></div>
+          <div class="ph-body">
+            <div class="sc-card">
+              <div class="sc-h2" style="margin-top:0">3. Objeción más probable y respuesta</div>
+              <div class="sc-quote"><strong>“Compramos lo de siempre, ya pediremos cuando haga falta”</strong> → Lo entiendo, pero llevamos casi dos meses sin hablar de tornillería y no quiero que os quedéis a medias en una obra. Te dejo los tornillos que pediste el día 10 y, si te viene bien, un pedido fijo cada 6 semanas para que no tengas que pensarlo.</div>
+              <div class="sc-h2">4. Frase para abrir</div>
+              <div class="sc-wa">
+                <div class="sc-wa-t">Mensaje para el cliente</div>
+                <div class="sc-p">“Marta, te dejé la propuesta de tornillo para el aglomerado de 19 mm el martes. ¿Lo probasteis? Si te encaja, te lo preparo hoy con la cola D3 para que lo tengas todo junto.”</div>
+                <div class="sc-btns"><span class="sc-b1">Enviar por WhatsApp</span><span class="sc-b2">Copiar mensaje</span></div>
+              </div>
+              <div class="sc-p"><strong>Acción sugerida:</strong> llamar hoy o mañana, confirmar tornillo (DM-F001 o DM-F002) y proponer el pedido combinado con cola D3.</div>
+            </div>
+          </div>
+          <div class="sc-chips"><span>Preparar visita</span><span>Presupuesto</span><span>WhatsApp</span><span>Nota de visita</span></div>
+        </div></div>
+
+        <div class="scr" id="scr-2"><div class="phone big">
+          <div class="ph-notch"><div class="ph-cam"></div></div>
+          <div class="ph-bar"><span class="ph-bar-t">9:41</span><span class="ph-bar-t">●●●</span></div>
+          <div class="ph-head"><div class="ph-ic"><svg width="12" height="12" viewBox="0 0 56 56"><circle cx="28" cy="28" r="8" fill="#C8FF00"/><circle cx="28" cy="9.5" r="5" fill="#C8FF00" opacity=".5"/><circle cx="43.5" cy="37" r="5" fill="#C8FF00" opacity=".5"/><circle cx="12.5" cy="37" r="5" fill="#C8FF00" opacity=".5"/></svg></div><div><div class="ph-name">Consulta general</div><div class="ph-sub">CATÁLOGO Y PROCEDIMIENTOS</div></div></div>
+          <div class="ph-body">
+            <div class="msg-u" style="font-size:11px">¿Qué productos se venden juntos?</div>
+            <div class="sc-card" style="margin-bottom:0">
+              <div class="sc-p">Te propongo las agrupaciones lógicas por tipo de trabajo, según el catálogo:</div>
+              <div class="sc-h2">Mueble de baño o cocina (zona húmeda)</div>
+              <div class="sc-p"><strong>DM-T003</strong> Tablero MDF hidrófugo 19 mm · 46,00 €<br><strong>DM-T005</strong> Tablero aglomerado hidrófugo melaminado 19 mm · 49,00 €<br><strong>ADH-D4</strong> Cola PVAc D4 750 g para humedad frecuente · 14,50 €</div>
+              <div class="sc-h2">Acabado de mueble visto</div>
+              <div class="sc-p"><strong>DM-C001</strong> Barniz al agua incoloro mate 5 L · 52,00 €</div>
+              <div class="sc-h2">Estructura de armario</div>
+              <div class="sc-p"><strong>DM-T001</strong> Tablero aglomerado melaminado blanco 19 mm · 38,50 €<br><strong>DM-A001</strong> Cola blanca PVAc D3 botella 1 kg · 5,20 €</div>
+              <div class="sc-p" style="margin-top:8px">Si me dices qué proyecto tienes entre manos (por ejemplo, la cocina de Premià de Can Soler), te concreto la lista con cantidades y lo preparo como presupuesto.</div>
+            </div>
+          </div>
+          <div class="sc-chips"><span>Plan de la semana</span><span>WhatsApp</span></div>
+        </div></div>
+
+        <div class="scr" id="scr-3"><div class="phone big">
+          <div class="ph-notch"><div class="ph-cam"></div></div>
+          <div class="ph-bar"><span class="ph-bar-t">9:41</span><span class="ph-bar-t">●●●</span></div>
+          <div class="car">
+            <div class="car-t">MODO COCHE · ANAVY</div>
+            <div class="car-s">Consulta general</div>
+            <div class="car-mic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></div>
+            <div class="car-l">Te escucho…</div>
+            <div class="car-n">Móvil en el soporte y manos en el volante. No lo manipules mientras conduces.</div>
+            <div class="car-b">Terminar</div>
+          </div>
+        </div></div>
+
+        <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.3);margin-top:14px">Datos ficticios de una distribuidora de ejemplo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<section id="modulos" style="background:#fff;padding:120px 0">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">Los 4 momentos de la visita</div>
+    <h2 class="sec-title-dark reveal">Un comercial no es un CRM.<br>Anavy tampoco.</h2>
+    <p class="prob-intro reveal">Anavy acompaña cuatro momentos, uno para cada fase de la visita. Sin formularios, sin campos obligatorios, sin burocracia.</p>
+    <div class="mod-tabs-wrap"><button class="mod-tab active" onclick="showMod(0)"><span class="mod-tab-ic">▲</span><span class="mod-tab-name">Prepara</span><span class="mod-tab-sub">Antes de entrar</span></button><button class="mod-tab" onclick="showMod(1)"><span class="mod-tab-ic">◆</span><span class="mod-tab-name">Acompaña</span><span class="mod-tab-sub">Durante la visita</span></button><button class="mod-tab" onclick="showMod(2)"><span class="mod-tab-ic">●</span><span class="mod-tab-name">Recuerda</span><span class="mod-tab-sub">Al salir</span></button><button class="mod-tab" onclick="showMod(3)"><span class="mod-tab-ic">→</span><span class="mod-tab-name">Seguimiento</span><span class="mod-tab-sub">Esa misma tarde</span></button></div>
+    <div class="mod-panel active" id="mod-0">
+      <div>
+        <h3 class="mod-h">Sabes qué decir antes de entrar.</h3>
+        <p class="mod-text">Al abrir la app, Hoy te enseña los clientes que se enfrían: los que más días llevan sin visita. Con un toque en Preparar, Anavy te da el contexto del cliente antes de llegar.</p>
+        <div class="mod-quote">“Carpintería Vilaseca lleva 62 días sin visita. Hoy es el momento.”</div>
+        <p class="mod-text">También te recuerda lo que prometiste: los compromisos aparecen como recordatorios en Hoy y en la Agenda.</p>
+      </div>
+      <div class="mod-steps"><div class="mod-step"><div class="mod-dot">1</div><div><div class="mod-step-main">Clientes que se enfrían</div><div class="mod-step-sub">Los clientes con más días sin visita, ordenados y con acceso directo a Preparar.</div></div></div><div class="mod-step"><div class="mod-dot">2</div><div><div class="mod-step-main">Contexto del cliente</div><div class="mod-step-sub">Lo que Anavy recuerda de las conversaciones anteriores con ese cliente.</div></div></div><div class="mod-step"><div class="mod-dot">3</div><div><div class="mod-step-main">Objeción más probable</div><div class="mod-step-sub">Con la respuesta sugerida, lista para usarla.</div></div></div><div class="mod-step"><div class="mod-dot">4</div><div><div class="mod-step-main">Frase para abrir</div><div class="mod-step-sub">Un mensaje de apertura basado en la última conversación.</div></div></div></div>
+    </div><div class="mod-panel" id="mod-1">
+      <div>
+        <h3 class="mod-h">La respuesta con el catálogo en la mano.</h3>
+        <p class="mod-text">Escribes, o hablas en Modo coche, y Anavy responde con las referencias y los precios de tu catálogo. Sin “te confirmo y te llamo”.</p>
+        <div class="mod-quote">“¿Qué productos se venden juntos?” — referencias y precios por tipo de trabajo.</div>
+        <p class="mod-text">Anavy solo usa lo que está cargado en el catálogo. Si no tiene el dato, lo dice.</p>
+      </div>
+      <div class="mod-steps"><div class="mod-step"><div class="mod-dot">1</div><div><div class="mod-step-main">Referencias y precios reales</div><div class="mod-step-sub">Referencia, descripción, precio y unidad, tal y como están en tu catálogo.</div></div></div><div class="mod-step"><div class="mod-dot">2</div><div><div class="mod-step-main">Packs por tipo de trabajo</div><div class="mod-step-sub">Agrupa lo que se vende junto: baño y cocina, acabado de mueble visto, estructura de armario.</div></div></div><div class="mod-step"><div class="mod-dot">3</div><div><div class="mod-step-main">Respuesta a objeciones</div><div class="mod-step-sub">“Compramos lo de siempre”, “lo compro más barato”: te da una respuesta lista para decirla.</div></div></div><div class="mod-step"><div class="mod-dot">4</div><div><div class="mod-step-main">Modo coche</div><div class="mod-step-sub">Hablas y Anavy te responde en voz alta, con el móvil en el soporte y las manos en el volante.</div></div></div></div>
+    </div><div class="mod-panel" id="mod-2">
+      <div>
+        <h3 class="mod-h">La visita queda registrada.</h3>
+        <p class="mod-text">Con Nota de visita apuntas lo hablado en pocas palabras. Anavy lo guarda en la memoria de ese cliente y lo tiene en cuenta la próxima vez que prepares la visita.</p>
+        <div class="mod-quote">“Llamar a Joan tras probar la muestra de barniz; aprovechar para cerrar el presupuesto de la cocina.”</div>
+        <p class="mod-text">Lo que queda pendiente sale en Hoy y en la Agenda, con su fecha, y se marca cuando está hecho.</p>
+      </div>
+      <div class="mod-steps"><div class="mod-step"><div class="mod-dot">1</div><div><div class="mod-step-main">Nota de visita</div><div class="mod-step-sub">Lo hablado, en pocas palabras.</div></div></div><div class="mod-step"><div class="mod-dot">2</div><div><div class="mod-step-main">Memoria por cliente</div><div class="mod-step-sub">Anavy recuerda lo hablado y lo usa en la siguiente visita.</div></div></div><div class="mod-step"><div class="mod-dot">3</div><div><div class="mod-step-main">Recordatorios</div><div class="mod-step-sub">Los compromisos salen en Hoy con su fecha y se marcan al hacerlos.</div></div></div><div class="mod-step"><div class="mod-dot">4</div><div><div class="mod-step-main">Agenda de 7 días</div><div class="mod-step-sub">Lo próximo de la semana, en una sola pantalla.</div></div></div></div>
+    </div><div class="mod-panel" id="mod-3">
+      <div>
+        <h3 class="mod-h">El mensaje ya está escrito.</h3>
+        <p class="mod-text">Anavy redacta el WhatsApp con el contexto real del cliente: lo que se habló, lo que se va a enviar y el siguiente paso. Lo envías con un toque o lo copias.</p>
+        <div class="mod-quote">“Marta, te dejé la propuesta de tornillo para el aglomerado de 19 mm el martes. ¿Lo probasteis?”</div>
+        <p class="mod-text">En España se trabaja por WhatsApp. Anavy lo sabe.</p>
+      </div>
+      <div class="mod-steps"><div class="mod-step"><div class="mod-dot">1</div><div><div class="mod-step-main">Enviar por WhatsApp</div><div class="mod-step-sub">Un toque y el mensaje está listo en el chat.</div></div></div><div class="mod-step"><div class="mod-dot">2</div><div><div class="mod-step-main">Copiar mensaje</div><div class="mod-step-sub">Para pegarlo donde quieras.</div></div></div><div class="mod-step"><div class="mod-dot">3</div><div><div class="mod-step-main">Presupuesto</div><div class="mod-step-sub">Se prepara dentro del chat con los precios de tu catálogo.</div></div></div><div class="mod-step"><div class="mod-dot">4</div><div><div class="mod-step-main">Próximamente: presupuesto en PDF</div><div class="mod-step-sub">Con la marca de tu empresa, listo para enviar.</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section id="estado">
+  <div class="wrap">
+    <div class="sec-eyebrow-inv reveal">Sin humo</div>
+    <h2 class="sec-title-inv reveal">Lo que hace hoy.<br>Lo que viene después.</h2>
+    <div class="est-grid">
+      <div class="est-card hoy reveal">
+        <div class="est-t" style="color:#C8FF00">Funciona hoy</div>
+        <div class="est-li"><span>✓</span>Acceso por email con código, sin contraseñas</div><div class="est-li"><span>✓</span>Pantalla Hoy: recordatorios y clientes que se enfrían</div><div class="est-li"><span>✓</span>Clientes asignados a cada comercial, con buscador</div><div class="est-li"><span>✓</span>Chat con el catálogo: referencias y precios reales</div><div class="est-li"><span>✓</span>Por cliente: preparar visita, presupuesto, WhatsApp y nota de visita</div><div class="est-li"><span>✓</span>Consulta general y plan de la semana</div><div class="est-li"><span>✓</span>Modo coche: hablas y te responde en voz alta</div><div class="est-li"><span>✓</span>Agenda de los próximos 7 días</div><div class="est-li"><span>✓</span>Se instala en el móvil como una app</div>
+      </div>
+      <div class="est-card reveal">
+        <div class="est-t" style="color:rgba(255,255,255,.4)">En camino</div>
+        <div class="est-li"><span>○</span>Panel del director: uso, visitas y clientes desatendidos</div><div class="est-li"><span>○</span>Presupuesto en PDF con la marca de la empresa</div><div class="est-li"><span>○</span>Informe semanal automático por email</div><div class="est-li"><span>○</span>Ruta y mapa del día</div><div class="est-li"><span>○</span>Modo sin cobertura</div><div class="est-li"><span>○</span>Conexión con ERP o CRM</div><div class="est-li"><span>○</span>Datos alojados en la UE en la versión definitiva</div>
+      </div>
+    </div>
+    <p class="est-note reveal">El piloto se hace con la versión actual. La versión definitiva se construye con lo que aprendamos de vuestro equipo.</p>
+  </div>
+</section>
+
+<section id="problema">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">El problema que resuelve</div>
+    <h2 class="sec-title-dark reveal">El comercial lo sabe todo.<br>Pero no puede tenerlo todo en la cabeza.</h2>
+    <p class="prob-intro reveal">Un catálogo industrial tiene miles de referencias: medidas, calidades, compatibilidades, alternativas. El cliente pregunta. El comercial tiene que responder ahora, delante de él.</p>
+    <div class="prob-grid">
+      <div class="prob-card reveal">
+        <div class="prob-num-big">01</div>
+        <div class="prob-tag">EN LA VISITA</div>
+        <div class="prob-title">"Te confirmo el precio y te llamo."</div>
+        <div class="prob-body">Cada vez que el comercial no tiene la respuesta exacta, el cliente empieza a dudar. No del precio. Del comercial. Y cuando llama dos días después, el cliente ya lo ha comprado en otro sitio.</div>
+        <div class="prob-stat">80% de las ventas requieren 5 seguimientos tras la primera reunión</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-num-big">02</div>
+        <div class="prob-tag">EL CATÁLOGO</div>
+        <div class="prob-title">Miles de referencias. Decenas de marcas. Cero tiempo para memorizarlo.</div>
+        <div class="prob-body">Medidas, calidades, compatibilidades y alternativas por si no hay stock. El comercial improvisa donde debería argumentar.</div>
+        <div class="prob-stat">Solo el 26% recibe formación 1:1 semanal</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-num-big">03</div>
+        <div class="prob-tag">LA ROTACIÓN</div>
+        <div class="prob-title">El mejor comercial se va. Y se lleva todos sus clientes con él.</div>
+        <div class="prob-body">El 25% de los comerciales cambia de trabajo cada año. Cuando se va, se lleva en la cabeza el historial de sus clientes: lo que cada uno pide, lo que le gusta, lo que quedó pendiente.</div>
+        <div class="prob-stat">25% de rotación anual en equipos comerciales</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-num-big">04</div>
+        <div class="prob-tag">EL DIRECTOR</div>
+        <div class="prob-title">El director no sabe qué está pasando hasta el lunes por la mañana.</div>
+        <div class="prob-body">Sin visibilidad en tiempo real, el director decide con lo que los comerciales recuerdan. Qué clientes se enfrían, qué presupuestos están vencidos: nadie lo sabe hasta que es tarde.</div>
+        <div class="prob-stat">Casi el 70% se siente desbordado por tantas herramientas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATOS -->
+<section id="datos">
+  <div class="wrap">
+    <div class="sec-eyebrow-inv reveal">Lo que dicen los datos</div>
+    <h2 class="sec-title-inv reveal">El seguimiento es donde<br>más dinero se deja sobre la mesa.</h2>
+    <div class="datos-grid">
+      <div class="dato-card reveal">
+        <div class="dato-num">80%</div>
+        <div class="dato-title">de las ventas requieren cinco seguimientos tras la primera reunión</div>
+        <div class="dato-body">Pero el 44% de los comerciales abandona tras el primer seguimiento. La venta no se pierde por el producto — se pierde por no volver.</div>
+        <div class="dato-src">Cifra muy citada · Marketing Donut</div>
+      </div>
+      <div class="dato-card reveal">
+        <div class="dato-num">1/3</div>
+        <div class="dato-title">de los equipos de ventas de campo no usa ninguna herramienta de IA</div>
+        <div class="dato-body">Entre los que sí la usan, predominan las tareas de administración: personalizar emails, analizar conversaciones y generar contenido.</div>
+        <div class="dato-src">SPOTIO State of Field Sales 2026</div>
+      </div>
+      <div class="dato-card reveal">
+        <div class="dato-num">5–7h</div>
+        <div class="dato-title">ahorradas por semana con notas por voz</div>
+        <div class="dato-body">El dictado por voz al salir de la visita elimina horas de CRM. El comercial habla 30 segundos. Anavy lo registra todo. (Próximamente)</div>
+        <div class="dato-src">Bliro · dato del propio fabricante</div>
+      </div>
+      <div class="dato-card reveal">
+        <div class="dato-num">2%</div>
+        <div class="dato-title">de las ventas se cierran en el primer contacto</div>
+        <div class="dato-body">El 98% restante necesita seguimiento. Sin un sistema, depende de la memoria del comercial.</div>
+        <div class="dato-src">Cifra muy citada · Marketing Donut</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section id="para-quien">
+  <div class="wrap">
+    <div class="sec-eyebrow-inv reveal">A quién va</div>
+    <h2 class="sec-title-inv reveal">Distribución industrial.<br>Empezamos por madera.</h2>
+    <div class="pq-grid">
+      <div class="pq-card pq-lime reveal">
+        <div class="pq-icon">🏭</div>
+        <div class="pq-title">El director comercial</div>
+        <div class="pq-body">Tiene un equipo de comerciales de campo que vende un catálogo técnico y amplio. Sabe que se pierden ventas por falta de información en la visita, pero no tiene cómo verlo ni cómo solucionarlo.</div>
+        <div class="pq-list">
+          <div class="pq-li"><div class="pq-dot"></div>Quiere que el equipo argumente mejor sin formación cara</div>
+          <div class="pq-li"><div class="pq-dot"></div>Quiere que el conocimiento de los buenos comerciales se quede en la empresa</div>
+          <div class="pq-li"><div class="pq-dot"></div>Quiere ver qué está pasando sin perseguir a nadie</div>
+          <div class="pq-li"><div class="pq-dot"></div>No quiere implantar un CRM de 6 meses</div>
+        </div>
+      </div>
+      <div class="pq-card pq-dark reveal">
+        <div class="pq-icon" style="color:#C8FF00">👤</div>
+        <div class="pq-title">El comercial de campo</div>
+        <div class="pq-body">Hace muchas visitas al día. No tiene tiempo de preparar cada una y se enfrenta a preguntas técnicas que necesitan respuesta ahora, no en dos días.</div>
+        <div class="pq-list">
+          <div class="pq-li"><div class="pq-dot"></div>Necesita el precio exacto y la referencia correcta delante del cliente</div>
+          <div class="pq-li"><div class="pq-dot"></div>Necesita el argumentario cuando el cliente compara con la marca de siempre</div>
+          <div class="pq-li"><div class="pq-dot"></div>Necesita que el seguimiento salga solo, sin rellenar nada</div>
+          <div class="pq-li"><div class="pq-dot"></div>Necesita que, si cambia de empresa, su sustituto no parta de cero</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:2px;background:#141414;border:1px solid #1E1E1E;padding:44px">
+      <div style="font-size:12px;font-weight:700;color:rgba(200,255,0,.6);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">Primer sector: madera y carpintería</div>
+      <div style="font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;max-width:640px;margin-bottom:24px">Materiales, herrajes, herramienta y consumibles para carpinterías, ebanistas y fabricantes de mueble. Preguntas como estas se repiten cada día en la visita:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.65);font-weight:500">¿Qué tornillo va mejor para tablero de partículas?</span>
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.65);font-weight:500">¿Qué cola aguanta humedad frecuente?</span>
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.65);font-weight:500">¿Tenéis este herraje en stock?</span>
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.65);font-weight:500">¿Qué fresa recomiendas para MDF?</span>
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.65);font-weight:500">¿Qué canto combina con este tablero?</span>
+          <span style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:30px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.65);font-weight:500">¿Qué barniz uso para exterior?</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">Cómo funciona</div>
+    <h2 class="sec-title-dark reveal">Del catálogo en un Excel a los comerciales<br>usándolo en campo. En dos semanas.</h2>
+    <div class="como-steps">
+      <div class="como-step reveal">
+        <div class="como-num">1</div>
+        <div class="como-title">Nos pasáis el catálogo</div>
+        <div class="como-body">En cualquier formato — Excel, PDF, CSV. Lo procesamos, lo limpiamos y lo estructuramos. Vosotros no hacéis nada técnico.</div>
+      </div>
+      <div class="como-step reveal">
+        <div class="como-num">2</div>
+        <div class="como-title">Subimos los clientes</div>
+        <div class="como-body">Lista de clientes con datos básicos. Anavy crea el perfil de cada uno y los asigna a los comerciales correspondientes.</div>
+      </div>
+      <div class="como-step reveal">
+        <div class="como-num">3</div>
+        <div class="como-title">El comercial lo instala en el móvil</div>
+        <div class="como-body">PWA — se instala como una app nativa en iOS y Android. Sin App Store, sin instaladores, sin IT. Un enlace y está lista.</div>
+      </div>
+      <div class="como-step reveal">
+        <div class="como-num">4</div>
+        <div class="como-title">Pregunta y Anavy responde</div>
+        <div class="como-body">Con datos reales del catálogo. En español. Sin inventar. Si el dato no está cargado, lo dice y lo apunta como pendiente.</div>
+      </div>
+    </div>
+    <div class="como-highlight reveal">
+      <div class="como-hl-text">Del contrato firmado a los comerciales en campo: <span>menos de dos semanas.</span> Sin trabajo técnico por vuestra parte.</div>
+      <div class="como-hl-right">
+        <div class="como-hl-num">2</div>
+        <div class="como-hl-label">semanas · listo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETENCIA -->
+<section id="competencia">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">El mercado</div>
+    <h2 class="sec-title-dark reveal">Las apps líderes son mapas y rutas.<br>Nadie acompaña durante la venta.</h2>
+    <div style="margin-top:52px;display:grid;grid-template-columns:1fr 1fr;gap:16px" class="reveal">
+      <div style="background:#fff;border:1px solid #E5E5E5;border-radius:12px;padding:32px">
+        <div style="font-size:11px;font-weight:700;color:#999;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px">Lo que hay en el mercado</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #F0F0EE">
+            <div style="width:28px;height:28px;background:#F5F5F3;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🗺</div>
+            <div><div style="font-size:13px;font-weight:700;color:#0A0A0A;margin-bottom:3px">Apps de rutas y mapas</div><div style="font-size:12px;color:#888;line-height:1.5">Optimizan recorridos y registran visitas. No conocen el catálogo ni argumentan.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #F0F0EE">
+            <div style="width:28px;height:28px;background:#F5F5F3;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">📋</div>
+            <div><div style="font-size:13px;font-weight:700;color:#0A0A0A;margin-bottom:3px">CRMs de ventas</div><div style="font-size:12px;color:#888;line-height:1.5">Guardan lo que ya pasó. No ayudan durante la conversación con el cliente.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #F0F0EE">
+            <div style="width:28px;height:28px;background:#F5F5F3;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">🤖</div>
+            <div><div style="font-size:13px;font-weight:700;color:#0A0A0A;margin-bottom:3px">Asistentes IA genéricos</div><div style="font-size:12px;color:#888;line-height:1.5">No conocen el catálogo de tu empresa. Inventan precios y referencias. En inglés.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0">
+            <div style="width:28px;height:28px;background:#F5F5F3;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">💶</div>
+            <div><div style="font-size:13px;font-weight:700;color:#0A0A0A;margin-bottom:3px">Plataformas enterprise</div><div style="font-size:12px;color:#888;line-height:1.5">Para grandes corporaciones. En inglés, con implementaciones de meses y precio prohibitivo para pymes.</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#0A0A0A;border-radius:12px;padding:32px">
+        <div style="font-size:11px;font-weight:700;color:rgba(200,255,0,.6);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px">Lo que hace Anavy distinto</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+            <div style="color:#C8FF00;font-weight:900;flex-shrink:0;margin-top:1px">◆</div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">Conoce el catálogo de tu empresa</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">Responde con las referencias, precios y argumentarios reales de tu distribuidora. No inventa nada.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+            <div style="color:#C8FF00;font-weight:900;flex-shrink:0;margin-top:1px">◆</div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">Acompaña durante la venta</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">No para el pre ni para el post — sino en el momento exacto en que el cliente hace la pregunta.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+            <div style="color:#C8FF00;font-weight:900;flex-shrink:0;margin-top:1px">◆</div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">En español, a precio de pyme</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">Diseñado para distribuidoras de 5 a 30 comerciales. Sin implementaciones de meses ni contratos de años.</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0">
+            <div style="color:#C8FF00;font-weight:900;flex-shrink:0;margin-top:1px">◆</div>
+            <div><div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:3px">Especializado por sector</div><div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.5">Empezamos por madera y carpintería. Argumentarios técnicos reales de tu catálogo, no respuestas genéricas.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="comp-note reveal">Las herramientas genéricas no conocen lo que vende tu equipo. Anavy sí.</p>
+  </div>
+</section>
+
+<!-- MODELO -->
+<section id="modelo">
+  <div class="wrap">
+    <div class="sec-eyebrow-inv reveal">Modelo y precios</div>
+    <h2 class="sec-title-inv reveal">Demo gratuita. Setup fee único.<br>Suscripción mensual sin contrato largo.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:52px" class="reveal">
+      <div class="modelo-card">
+        <span class="modelo-badge">FASE 1 · Piloto gratuito</span>
+        <div class="modelo-price">Gratis</div>
+        <div class="modelo-unit">2–4 semanas · 2–4 comerciales</div>
+        <div class="modelo-sep"></div>
+        <div class="modelo-list">
+          <div class="modelo-li"><span>→</span>Vuestro catálogo real cargado</div>
+          <div class="modelo-li"><span>→</span>Vuestros clientes en el sistema</div>
+          <div class="modelo-li"><span>→</span>Los comerciales lo prueban en visitas reales</div>
+          <div class="modelo-li"><span>→</span>Sin compromiso — si no veis valor, paramos</div>
+        </div>
+      </div>
+      <div class="modelo-card featured">
+        <span class="modelo-badge">FASE 2 · Suscripción mensual</span>
+        <div class="modelo-price">59,90€</div>
+        <div class="modelo-unit">por usuario · por mes</div>
+        <div class="modelo-sep"></div>
+        <div class="modelo-list">
+          <div class="modelo-li"><span>→</span>Los 4 módulos completos</div>
+          <div class="modelo-li"><span>→</span>Actualizaciones de catálogo incluidas</div>
+          <div class="modelo-li"><span>→</span>Soporte técnico incluido</div>
+          <div class="modelo-li"><span>→</span>Permanencia mínima de 3 meses tras el piloto</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;background:rgba(200,255,0,.04);border:1px solid rgba(200,255,0,.1);border-radius:10px;padding:22px 28px;display:flex;gap:20px;align-items:flex-start" class="reveal">
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:rgba(200,255,0,.6);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Implementación</div>
+        <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:4px">Desde 1.500€ <span style="font-size:13px;font-weight:400;color:rgba(255,255,255,.3)">pago único</span></div>
+        <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.65">Cubre el desarrollo de la app definitiva, carga completa del catálogo, subida de clientes, creación de accesos y formación del equipo. Precio según tamaño del equipo. Presupuesto personalizado en la demo.</div>
+      </div>
+      <div style="flex-shrink:0;text-align:center;padding:14px 20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Listo en</div>
+        <div style="font-size:28px;font-weight:900;color:#C8FF00;letter-spacing:-1px">2</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.3);font-weight:600">semanas</div>
+      </div>
+    </div>
+    <div class="modelo-bottom">
+      <div class="modelo-roi reveal">
+        <div class="modelo-roi-title">ROI para un equipo de 10 comerciales</div>
+        <div class="modelo-roi-row"><span class="modelo-roi-l">Inversión Anavy/mes</span><span class="modelo-roi-v">599€</span></div>
+        <div class="modelo-roi-row"><span class="modelo-roi-l">Seguimiento de cada visita</span><span class="modelo-roi-v">Sale solo</span></div>
+        <div class="modelo-roi-row"><span class="modelo-roi-l">Onboarding nuevo comercial</span><span class="modelo-roi-v">Días, no meses</span></div>
+        <div class="modelo-roi-row"><span class="modelo-roi-l">Conocimiento que se queda</span><span class="modelo-roi-v">Para siempre</span></div>
+        <div class="modelo-roi-row"><span class="modelo-roi-l" style="font-weight:800;color:#fff">Se paga solo con</span><span class="modelo-roi-v lime">599€/mes de margen extra</span></div>
+      </div>
+      <div class="modelo-promise reveal">
+        <div class="modelo-promise-item"><span>→</span>Si en el piloto no veis valor, paramos sin coste ni explicaciones.</div>
+        <div class="modelo-promise-item"><span>→</span>Permanencia mínima de 3 meses tras el piloto. Después, mes a mes sin compromiso.</div>
+        <div class="modelo-promise-item"><span>→</span>Versión definitiva con los datos de tus clientes alojados en la UE y cumplimiento RGPD.</div>
+        <div class="modelo-promise-item"><span>→</span>Sin trabajo técnico por vuestra parte en ninguna fase.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILOSOFÍA -->
+<section id="filosofia">
+  <div class="wrap">
+    <div class="filo-header">
+      <h2 class="filo-big reveal">Anavy no es un CRM.<br>No es un chatbot.<br>No es otra app que nadie usa.</h2>
+      <p class="filo-intro reveal">El comercial ya tiene demasiadas herramientas. Anavy existe para quitarle trabajo, no para añadirle pasos. Si no le hace la vida más fácil, no la va a usar. Lo sabemos porque lo hemos vivido en campo.</p>
+    </div>
+    <div class="filo-grid">
+      <div class="filo-card reveal">
+        <div class="filo-bar"></div>
+        <div class="filo-no">No inventa precios.</div>
+        <div class="filo-si">Solo responde con los datos que están cargados en el catálogo. Si no tiene el dato, lo dice y lo apunta como pendiente.</div>
+      </div>
+      <div class="filo-card reveal">
+        <div class="filo-bar"></div>
+        <div class="filo-no">No requiere formación.</div>
+        <div class="filo-si">El comercial lo prueba y lo entiende solo. No hay campos obligatorios, no hay flujos de trabajo forzados.</div>
+      </div>
+      <div class="filo-card reveal">
+        <div class="filo-bar"></div>
+        <div class="filo-no">No habla mal de la competencia.</div>
+        <div class="filo-si">Compara en hechos: características técnicas, precio, servicio. El comercial argumenta, no ataca.</div>
+      </div>
+      <div class="filo-card reveal">
+        <div class="filo-bar"></div>
+        <div class="filo-no">No necesita señal perfecta.</div>
+        <div class="filo-si">Polígonos, sótanos, naves. El modo sin cobertura guarda las notas y las envía cuando vuelve la señal. (Próximamente)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILOTO -->
+<section id="piloto">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">Cómo empezamos</div>
+    <h2 class="sec-title-dark reveal">Un piloto real con vuestros datos.<br>Sin riesgo. Sin contrato largo.</h2>
+    <div class="piloto-grid">
+      <div class="piloto-steps">
+        <div class="piloto-step reveal">
+          <div class="piloto-num">1</div>
+          <div>
+            <div class="piloto-title">Semana 1 — Configuración</div>
+            <div class="piloto-body">Nos pasáis el catálogo y la lista de clientes en cualquier formato. Nosotros lo montamos todo. Vosotros no hacéis nada técnico. Al final de la semana, la app está lista con vuestros datos reales.</div>
+          </div>
+        </div>
+        <div class="piloto-step reveal">
+          <div class="piloto-num">2</div>
+          <div>
+            <div class="piloto-title">Semanas 2–4 — Prueba real</div>
+            <div class="piloto-body">2–4 comerciales del equipo lo usan en sus visitas reales, con sus clientes, con su forma de trabajar. No es una demo en un despacho — es el producto funcionando en campo.</div>
+          </div>
+        </div>
+        <div class="piloto-step reveal">
+          <div class="piloto-num">3</div>
+          <div>
+            <div class="piloto-title">Mes 2 — Decisión</div>
+            <div class="piloto-body">Nos reunimos con el director para ver qué funcionó, qué hay que ajustar y si lo extendemos al equipo completo. Si no veis valor, lo decís y paramos. Sin coste, sin explicaciones.</div>
+          </div>
+        </div>
+      </div>
+      <div class="piloto-cards">
+        <div class="piloto-card reveal">
+          <div class="piloto-card-title">Qué necesitamos de vosotros</div>
+          <div class="piloto-card-list">
+            <div class="piloto-card-li"><span>→</span>El catálogo en cualquier formato (Excel, PDF, CSV)</div>
+            <div class="piloto-card-li"><span>→</span>Lista de clientes con nombre y contacto básico</div>
+            <div class="piloto-card-li"><span>→</span>2–4 comerciales dispuestos a probarlo un mes</div>
+            <div class="piloto-card-li"><span>→</span>30 minutos para la llamada de configuración inicial</div>
+          </div>
+        </div>
+        <div class="piloto-card reveal">
+          <div class="piloto-card-title">Qué os comprometemos</div>
+          <div class="piloto-card-list">
+            <div class="piloto-card-li"><span>→</span>Listo en menos de una semana</div>
+            <div class="piloto-card-li"><span>→</span>Sin formación ni trabajo técnico por vuestra parte</div>
+            <div class="piloto-card-li"><span>→</span>Acompañamiento durante todo el piloto</div>
+            <div class="piloto-card-li"><span>→</span>Sin contrato largo — si no veis valor, paramos</div>
+          </div>
+        </div>
+        <div class="piloto-card reveal" style="background:#0A0A0A;border-color:#1E1E1E">
+          <div class="piloto-card-title" style="color:#C8FF00">La demo</div>
+          <div class="piloto-card-list">
+            <div class="piloto-card-li" style="color:rgba(255,255,255,.5)"><span style="color:#C8FF00">→</span>30 minutos por videollamada</div>
+            <div class="piloto-card-li" style="color:rgba(255,255,255,.5)"><span style="color:#C8FF00">→</span>Mostramos Anavy con un catálogo de ejemplo de tu sector, o con el tuyo</div>
+            <div class="piloto-card-li" style="color:rgba(255,255,255,.5)"><span style="color:#C8FF00">→</span>Sin compromiso — si no encaja, sin problema</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="sec-eyebrow-inv reveal">Contacto</div>
+    <h2 class="sec-title-inv reveal">¿Lo probamos con<br>vuestro catálogo?</h2>
+    <div class="contact-grid">
+      <div class="contact-left reveal-left">
+        <h3>Hablemos.</h3>
+        <p>Cuéntanos cuántos comerciales tenéis, en qué sector y qué problema queréis resolver. Si Anavy encaja, os montamos la demo con vuestros datos en una semana.</p>
+        <div class="contact-info">
+          <div class="contact-info-item"><div class="contact-ic">✉</div><span>Email: <a href="mailto:anavy.info@gmail.com">anavy.info@gmail.com</a></span></div>
+          <div class="contact-info-item"><div class="contact-ic">🌐</div><span>Web: <a href="https://anavy.es">anavy.es</a></span></div>
+        </div>
+        <div style="margin-top:32px;padding:24px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px">
+          <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.25);margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase">¿Cuándo respondemos?</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.35);line-height:1.75">En menos de 24 horas. Si el formulario encaja, os proponemos una videollamada de 30 minutos para mostraros Anavy con un catálogo de vuestro sector.</div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="form-wrap">
+          <form id="contactForm" action="https://formspree.io/f/xeaokyak" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="nombre">Nombre</label>
+                <input class="form-input" type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="empresa">Empresa</label>
+                <input class="form-input" type="text" id="empresa" name="empresa" placeholder="Tu distribuidora" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="tu@empresa.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="comerciales">¿Cuántos comerciales tenéis?</label>
+              <input class="form-input" type="text" id="comerciales" name="comerciales" placeholder="Ej: 8 comerciales, zona Cataluña">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mensaje">¿Qué problema queréis resolver?</label>
+              <textarea class="form-input" id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos cuál es el mayor problema de vuestro equipo comercial..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Pedir demo gratuita →</button>
+            <div class="form-note">Sin compromiso. Os respondemos en menos de 24 horas. Permanencia mínima de 3 meses tras el piloto — sin letra pequeña.</div>
+          </form>
+          <div class="form-ok" id="formOk">
+            <div class="form-ok-icon">✓</div>
+            <div class="form-ok-title">Mensaje recibido</div>
+            <div class="form-ok-body">Os escribimos en menos de 24 horas para organizar la demo con vuestros datos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="wrap">
+    <h2 class="reveal">¿Lo probamos<br>con vuestro<br>catálogo?</h2>
+    <p class="reveal">Sin compromiso. Una demo con datos reales de vuestro sector para que veáis exactamente cómo funcionaría para vuestro equipo.</p>
+    <a href="#contacto" class="btn-dark reveal">Pedir demo gratuita →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-in">
+    <div class="footer-name">anavy</div>
+    <div class="footer-note">© 2026 Anavy · Copiloto de ventas industrial · anavy.info@gmail.com</div>
+  </div>
+</footer>
+
+</div><!-- /main -->
+
+<script>
+// SPLASH
+function enterSite(){
+  const s=document.getElementById('splash');
+  const m=document.getElementById('main');
+  s.classList.add('out');
+  setTimeout(()=>{s.style.display='none';m.classList.add('on')},750);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')enterSite()});
+
+// NAV
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>80)nav.classList.add('show');
+  else nav.classList.remove('show');
+});
+
+// REVEAL
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>observer.observe(el));
+
+// MÓDULOS
+function showMod(i){
+  document.querySelectorAll('.mod-tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('.mod-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+}
+
+// APP
+function showApp(i){
+  document.querySelectorAll('.app-tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('.scr').forEach((p,j)=>p.classList.toggle('active',j===i));
+}
+
+// FORM
+document.getElementById('contactForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=this.querySelector('.form-submit');
+  btn.textContent='Enviando...';btn.disabled=true;
+  try{
+    const r=await fetch(this.action,{method:'POST',body:new FormData(this),headers:{'Accept':'application/json'}});
+    if(r.ok){
+      this.style.display='none';
+      document.getElementById('formOk').style.display='block';
+    }else{btn.textContent='Error — intentad de nuevo';btn.disabled=false}
+  }catch{btn.textContent='Error — intentad de nuevo';btn.disabled=false}
+});
+</script>
+</body>
+</html>
